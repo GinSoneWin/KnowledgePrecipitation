@@ -1,0 +1,6 @@
+https://biningo.github.io/2021/05/10/go%E5%B7%A5%E5%85%B7%E9%93%BE/#go-tool
+
+golang语言目前有多种测试工具，如delve和gdb，但是gdb本身对golang支持不够好需要额外做扩展，因此go官方推荐的调试器是delve。
+
+delve下载安装地址：https://github.com/derekparker/delve
+
