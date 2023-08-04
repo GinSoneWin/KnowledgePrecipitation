@@ -39,15 +39,27 @@
     git log --grep=“keyword” //查看当前分支，提交comment信息中包含指定关键字的提交记录
     git log -n 3 //查看当前分支，指定只展示最近3个commit记录
     git log -- $file //查看当前分支，指定包含指定文件修改的提交记录
+    git log --stat //查看当前分支，并展示文件修改行数统计
+    git log --graph //查看当前分支，以可视化方式展示commit记录中分支合并关系，并格式化展示指定字段信息。其中
+    git log --graph --format="%h %p %cd %s" //查看当前分支，以可视化方式展示commit记录中分支拓扑关系，并按格式化展示指定字段信息。其中%h为commit的简短id，%p为父commit的简短id, %cd为提交日期，%s为提交说明。
+                                            //值得注意的是，%p展示的是父commit的列表，当存在分支合并时，合并后的commit节点就会有两个parent commit节点，父parent的顺序就是HEAD^n的顺序，HEAD^n表示第n个parent节点
     git log $brName //查看指定分支的提交记录
     git log $brName --oneline //查看指定分支，并以简洁格式展示（只有commitid前缀+comment）
     git log $brName --after="yyyy-mm-dd" --before="yyyy-mm-dd hh-mm-ss" --author="keyword" //查看指定分支，指定日期范围，指定作者（关键字）的提交记录
-    git log $brName --graph //查看指定分支，以图
+  
+    
     
 
 HEAD概念
   类似指针的概念，一般指向当前分支的最新commit版本。
   常用表达式
     HEAD~1，表示当前HEAD指向的前一个commit。依此类推，HEAD~N，表示当前HEAD指向的前N个commit。
+    HEAD^2，表示当前commit的第二个parent commit节点，因为当存在多个分支合并的时候，某个commit节点可能会有多个parent节点
     
-  
+
+
+
+
+
+
+参考文档：https://initialcommit.com/cluster/git-guides-and-git-tutorials
