@@ -32,4 +32,22 @@
       git checkout -b $newBrName $tagName
     根据远端commit版本创建新分支，并切换到新分支
       git checkout -b $newBrName $commitid 
+
+版本管理
+  查看提交记录
+    git log //默认查看当前分支的提交记录
+    git log --grep=“keyword” //查看当前分支，提交comment信息中包含指定关键字的提交记录
+    git log -n 3 //查看当前分支，指定只展示最近3个commit记录
+    git log -- $file //查看当前分支，指定包含指定文件修改的提交记录
+    git log $brName //查看指定分支的提交记录
+    git log $brName --oneline //查看指定分支，并以简洁格式展示（只有commitid前缀+comment）
+    git log $brName --after="yyyy-mm-dd" --before="yyyy-mm-dd hh-mm-ss" --author="keyword" //查看指定分支，指定日期范围，指定作者（关键字）的提交记录
+    git log $brName --graph //查看指定分支，以图
+    
+
+HEAD概念
+  类似指针的概念，一般指向当前分支的最新commit版本。
+  常用表达式
+    HEAD~1，表示当前HEAD指向的前一个commit。依此类推，HEAD~N，表示当前HEAD指向的前N个commit。
+    
   
