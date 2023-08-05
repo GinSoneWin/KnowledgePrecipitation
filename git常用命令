@@ -16,10 +16,11 @@
   恢复工作区文件，使用暂存区版本
     git checkout -- $file //指定文件，使用暂存区版本覆盖当前的工作区
     git checkout -- .     //所有文件，使用暂存区版本覆盖当前的工作区 
-  恢复工作区文件，使用远端commit版本
-    git checkout $commid $file //指定文件，使用远端commit版本覆盖当前工作区
-    git checkout $commid -- .  //所有文件，使用远端commit版本覆盖当前工作区      
-        
+  恢复工作区文件，使用指定commit版本
+    git checkout $commid -- $file //指定文件，使用指定commit版本覆盖当前工作区
+    git checkout $commid -- .  //所有文件，使用指定commit版本覆盖当前工作区
+    git checkout HEAD～ -- $file //指定文件，使用上个commit版本覆盖当前工作区
+    git checkout HEAD^2 -- $file //指定文件，使用第二个父节点的commit版本覆盖当前工作区    
         
   
 分支管理
@@ -33,7 +34,10 @@
     根据远端commit版本创建新分支，并切换到新分支
       git checkout -b $newBrName $commitid 
 
-版本管理
+版本管理  
+  概念
+    在git中每次修改的提交，都会给修改过的文件分配一个新的commit id。
+    在git中我们可以用某个commit id来标识某一次提交的版本，某一个文件版本，这个概念称为revision。
   查看提交记录
     git log //默认查看当前分支的提交记录
     git log --grep=“keyword” //查看当前分支，提交comment信息中包含指定关键字的提交记录
@@ -46,16 +50,50 @@
     git log $brName //查看指定分支的提交记录
     git log $brName --oneline //查看指定分支，并以简洁格式展示（只有commitid前缀+comment）
     git log $brName --after="yyyy-mm-dd" --before="yyyy-mm-dd hh-mm-ss" --author="keyword" //查看指定分支，指定日期范围，指定作者（关键字）的提交记录
-  
-    
+  查看当前分支 某个提交节点的revision
+    git rev-parse HEAD //最近提交节点的commit id
+    git rev-parse cdf1b14c01314d4353713b822d2231b9432c0ac5~1  //以cdf1b14c01314d4353713b822d2231b9432c0ac5作为revision的提交的 前一次提交的commit id
+    git rev-parse --short HEAD //以简短形式查看提交的commit id
+  查看当前分支 某次提交中某个文件的revision
+     git rev-parse HEAD~9:somepath/README.md //查看HEAD往前第9次的提交中的README.md文件的commit id
+      
     
 
 HEAD概念
   类似指针的概念，一般指向当前分支的最新commit版本。
+  操作符
+    脱字符（caret）：^   用于在多分支合并后commit节点存在相同层级的多个父节点时 选择具体顺序父节点的操作符
+    波浪号（tilde）：~   用于向上选择某一层级的祖先节点，默认沿着第一父节点链路向上回溯。
   常用表达式
-    HEAD~1，表示当前HEAD指向的前一个commit。依此类推，HEAD~N，表示当前HEAD指向的前N个commit。
-    HEAD^2，表示当前commit的第二个parent commit节点，因为当存在多个分支合并的时候，某个commit节点可能会有多个parent节点
+    HEAD~1，表示当前HEAD指向节点的前一个commit。依此类推，HEAD~N，表示当前HEAD指向的前N个commit。  
+    HEAD^2，表示当前commit的第二个parent commit节点，因为当存在多个分支合并的时候，某个commit节点可能会有多个parent节点，parent节点的顺序可通过git log --graph --format="%h %p %cd %s"查看
+    HEAD~，等价于HEAD~1
+    HEAD^，等价于HEAD^1
+    HEAD~0，表示当前HEAD指向的节点。
+    HEAD^0，表示当前HEAD指向的节点。
     
+    图例：
+      G   H   I   J
+       \ /     \ /
+        D   E   F
+         \  |  / \
+          \ | /   |
+           \|/    |
+            B     C
+             \   /
+              \ /
+               A
+      
+      A = A~0  = A^0
+      B = A^   = A^1     = A~     = A~1
+      C = A^2
+      D = A^^  = A^1^1   = A~2
+      E = B^2  = A^^2
+      F = B^3  = A^^3
+      G = A^^^ = A^1^1^1 = A~3
+      H = D^2  = B^^2    = A^^^2  = A~2^2
+      I = F^   = B^3^    = A^^3^
+      J = F^2  = B^3^2   = A^^3^2
 
 
 
