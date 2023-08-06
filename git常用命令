@@ -13,10 +13,10 @@
     希望直接将文件删除，不需要保留在工作区        
       step1: git rm -f $file
       step2: git commit -m "comment" //如果文件之前已经commit到本地仓库，需要再commit一次（将“文件从暂存区删除”的操作变更提交到本次仓库） 
-  恢复工作区文件，使用暂存区版本
+  丢弃工作区文件，使用暂存区版本覆盖
     git checkout -- $file //指定文件，使用暂存区版本覆盖当前的工作区
     git checkout -- .     //所有文件，使用暂存区版本覆盖当前的工作区 
-  恢复工作区文件，使用指定commit版本
+  丢弃工作区文件，使用指定commit版本覆盖
     git checkout $commid -- $file //指定文件，使用指定commit版本覆盖当前工作区
     git checkout $commid -- .  //所有文件，使用指定commit版本覆盖当前工作区
     git checkout HEAD～ -- $file //指定文件，使用上个commit版本覆盖当前工作区
