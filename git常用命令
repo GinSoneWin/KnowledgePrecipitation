@@ -5,6 +5,8 @@
   暂存区提交到本地仓库
     git commit -m "comment" [$file] //将暂存区（全部或指定文件）的内容提交到本地仓库
     git commit -m "comment" -a [$file] //将工作区和暂存区（全部或指定文件）的内容提交到本地仓库，相当于将git add/git commit操作合并
+  提交到远端仓库
+    git push 
   删除文件
     希望将文件保留回工作区，不再跟踪
       step1: git add $file //先将修改临时暂存
@@ -71,7 +73,8 @@
     git diff --cached  //查看暂存区和最近commit版本的修改内容
      
   
-    
+origin概念
+  实际上是用来表示仓库
 
 HEAD概念
   类似指针的概念，一般指向当前分支的最新commit版本。
