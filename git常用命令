@@ -55,8 +55,12 @@
     git rev-parse cdf1b14c01314d4353713b822d2231b9432c0ac5~1  //以cdf1b14c01314d4353713b822d2231b9432c0ac5作为revision的提交的 前一次提交的commit id
     git rev-parse --short HEAD //以简短形式查看提交的commit id
   查看当前分支 某次提交中某个文件的revision
-     git rev-parse HEAD~9:somepath/README.md //查看HEAD往前第9次的提交中的README.md文件的commit id
-      
+    git rev-parse HEAD~9:somepath/README.md //查看HEAD往前第9次的提交中的README.md文件的commit id
+  查看具体的文件内容修改
+    git diff //查看工作区和暂存区之间的修改内容
+    git diff --cached  //查看暂存区和最近commit版本的修改内容
+     
+  
     
 
 HEAD概念
