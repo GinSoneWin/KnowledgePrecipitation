@@ -21,10 +21,16 @@
     git checkout $commid -- .  //所有文件，使用指定commit版本覆盖当前工作区
     git checkout HEAD～ -- $file //指定文件，使用上个commit版本覆盖当前工作区
     git checkout HEAD^2 -- $file //指定文件，使用第二个父节点的commit版本覆盖当前工作区    
-  临时保存工作现场(包括工作去和暂存区)，使工作区和暂存区恢复上一次commit的状态
+  临时保存工作现场(包括工作区和暂存区)，使工作区和暂存区恢复上一次commit的状态
     git stash list //查看当前临时工作区的stash列表，以堆栈形式保存，index为0是刚刚保存的工作区现场
-    git stash save "some information about this stash" //临时保存工作现场，将工作区和暂存区都恢复到最近一次commit后的状态，没有任何修改
-    
+    git stash save "some information about this stash" //临时保存工作现场，不包括untracked文件（继续保留为untracked状态），将工作区和暂存区都恢复到最近一次commit后的状态，没有任何修改
+    git stash save -u "some information about this stash" //临时保存工作现场，包括untracked状态的文件
+    git stash drop //默认删除最近一个入栈的stash对象
+    git stash drop stash@{1} //删除下标为1的stash对象
+    git stash pop //用栈顶的stash对象恢复工作现场，注意原本工作现场中工作区和暂存区的改动都会恢复到工作区
+    git stash pop --index //用栈顶的stash对象恢复工作现场，注意原本工作现场中工作区和暂存区会 各自 恢复到原有的状态（而不是都恢复到工作区）
+    git stash apply //与pop一样，只是stash对象仍然会保留到栈中
+    git stash branch $newBrName stash@{1} //以下标为1的stash对象的工作现场创建新分支并切换到新分支，此时新分支的工作区和暂存区状态会跟stash对象工作现场保持一致
         
   
 分支管理
