@@ -74,7 +74,7 @@
      
   
 origin概念
-  实际上是用来表示仓库
+  实际上是用来表示当前本地仓库的clone源的url的别名。比如某个仓库的git源为git@github.com:git/git.git，那么git push origin master等价于git push git@github.com:git/git.git master
 
 HEAD概念
   类似指针的概念，一般指向当前分支的最新commit版本。
