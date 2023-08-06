@@ -21,6 +21,10 @@
     git checkout $commid -- .  //所有文件，使用指定commit版本覆盖当前工作区
     git checkout HEAD～ -- $file //指定文件，使用上个commit版本覆盖当前工作区
     git checkout HEAD^2 -- $file //指定文件，使用第二个父节点的commit版本覆盖当前工作区    
+  临时保存工作现场(包括工作去和暂存区)，使工作区和暂存区恢复上一次commit的状态
+    git stash list //查看当前临时工作区的stash列表，以堆栈形式保存，index为0是刚刚保存的工作区现场
+    git stash save "some information about this stash" //临时保存工作现场，将工作区和暂存区都恢复到最近一次commit后的状态，没有任何修改
+    
         
   
 分支管理
