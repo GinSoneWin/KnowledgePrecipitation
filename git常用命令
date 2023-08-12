@@ -5,9 +5,10 @@
   暂存区提交到本地仓库
     git commit -m "comment" [$file] //将暂存区（全部或指定文件）的内容提交到本地仓库
     git commit -m "comment" -a [$file] //将工作区和暂存区（全部或指定文件）的内容提交到本地仓库，相当于将git add/git commit操作合并
-  提交到远端仓库
+  提交到远端仓库  
     git push origin master:master //将本地分支master推送到origin主机的master远程分支
     git push origin master //等价于git push origin master:master，意味着当本地分支和远端分支同名时可以省略远端分支名  
+    git push origin --set-upstream $brName //推送本地分支到远端同名分支，并建立连接。已建立连接的当前分支，可使用git push origin简约命令来push提交内容到远端仓库。
   删除文件
     希望将文件保留回工作区，不再跟踪
       step1: git add $file //先将修改临时暂存
@@ -81,7 +82,8 @@
   版本回退
     不需要保留原始分支的版本回退
     git checkout -b $new_br_name  $prev_commit_id  // 直接以历史commit版本创建一个新分支，在新分支上的状态相当于完成了版本回退操作。
-    需要保留原始分支的版本回退
+    需要保留原始分支的版本回退，且需要回退的commit已经推送到远端仓库
+    git revert
     
      
   
