@@ -72,6 +72,17 @@
   查看具体的文件内容修改
     git diff //查看工作区和暂存区之间的修改内容
     git diff --cached  //查看暂存区和最近commit版本的修改内容
+  查看文件每一行内容的更新信息（作者，时间，版本号等）
+    git blame $file           //查看文件中每一行内容的更新信息
+    git blame -L 10,17 $file  //查看文件中行数范围为第10～17行内的内容更新信息
+  切换到某个历史commit版本
+    git checkout $commitid //使工作区切换到指定版本进入detached head state，在这里可以查看修改文件甚至做commit操作，但如果不额外创建新分支，则在git checkout $brName 后退出detached head mode
+                           //detached head state意味着，当前状态下所有操作不会对任务分支造成影响。如果希望保留在detach head state的修改，则需要新建分支。
+  版本回退
+    不需要保留原始分支的版本回退
+    git checkout -b $new_br_name  $prev_commit_id  // 直接以历史commit版本创建一个新分支，在新分支上的状态相当于完成了版本回退操作。
+    需要保留原始分支的版本回退
+    
      
   
 origin概念
