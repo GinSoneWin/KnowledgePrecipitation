@@ -7,8 +7,7 @@
     git commit -m "comment" -a [$file] //将工作区和暂存区（全部或指定文件）的内容提交到本地仓库，相当于将git add/git commit操作合并
   提交到远端仓库
     git push origin master:master //将本地分支master推送到origin主机的master远程分支
-    git push origin master //等价于git push origin master:master，意味着当本地分支和远端分支同名时可以省略远端分支名
-  
+    git push origin master //等价于git push origin master:master，意味着当本地分支和远端分支同名时可以省略远端分支名  
   删除文件
     希望将文件保留回工作区，不再跟踪
       step1: git add $file //先将修改临时暂存
