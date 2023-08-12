@@ -89,6 +89,8 @@
     git checkout -b $new_br_name  $prev_commit_id  // 直接以历史commit版本创建一个新分支，在新分支上的状态相当于完成了版本回退操作。
     需要保留原始分支的版本回退，且需要回退的commit已经推送到远端仓库（public commit）
     git revert HEAD //回退到上一个commit版本的状态，同时会将这次回退操作产生一个新的commit，因此在git log上仍然保留了上个版本的commit，同时会新增一个revert操作commit版本。
+    git revert $commitid //将指定commit版本的变更内容进行回退到上一版本的状态（指定commit版本以后的多个commit的变更仍然保留，而不是直接从当前commit的状态直接回退多个版本到指定commit）。
+                         //如果变更存在冲突需要解决冲突后并add暂存后，通过git revert --continue继续回退操作。
     需要保留原始分支的版本回退，且需要回退的commit还没推送到远端仓库(local commit)
     git reset --hard $prev_commitid //回退到指定历史commit版本的状态，同时该回退版本之后的commit也会在git log中被清除。
                                     //该操作适合回退本地未推送到远端仓库的提交
