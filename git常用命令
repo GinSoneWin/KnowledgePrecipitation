@@ -17,14 +17,19 @@
     希望直接将文件删除，不需要保留在工作区        
       step1: git rm -f $file
       step2: git commit -m "comment" //如果文件之前已经commit到本地仓库，需要再commit一次（将“文件从暂存区删除”的操作变更提交到本次仓库） 
-  丢弃工作区文件，使用暂存区版本覆盖
+  丢弃工作区修改，使用暂存区版本覆盖
     git checkout -- $file //指定文件，使用暂存区版本覆盖当前的工作区
     git checkout -- .     //所有文件，使用暂存区版本覆盖当前的工作区 
-  丢弃工作区文件，使用指定commit版本覆盖
+  丢弃工作区修改，使用指定commit版本覆盖
     git checkout $commid -- $file //指定文件，使用指定commit版本覆盖当前工作区
     git checkout $commid -- .  //所有文件，使用指定commit版本覆盖当前工作区
     git checkout HEAD～ -- $file //指定文件，使用上个commit版本覆盖当前工作区
-    git checkout HEAD^2 -- $file //指定文件，使用第二个父节点的commit版本覆盖当前工作区    
+    git checkout HEAD^2 -- $file //指定文件，使用第二个父节点的commit版本覆盖当前工作区
+  丢弃暂存区修改内容，并恢复到工作区(相当于取消git add操作)
+    git reset --mixed HEAD -- $file //指定文件，将指定文件的暂存区修改内容丢弃，恢复到工作区。实际上，--mixed是默认参数，可省略。
+    gir reset --mixed HEAD -- . //所有文件，将暂存区所有修改内容丢弃，恢复到工作区。实际上，--mixed是默认参数，可省略。
+  
+    
   临时保存工作现场(包括工作区和暂存区)，使工作区和暂存区恢复上一次commit的状态
     git stash list //查看当前临时工作区的stash列表，以堆栈形式保存，index为0是刚刚保存的工作区现场
     git stash save "some information about this stash" //临时保存工作现场，不包括untracked文件（继续保留为untracked状态），将工作区和暂存区都恢复到最近一次commit后的状态，没有任何修改
