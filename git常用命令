@@ -87,7 +87,8 @@
     需要保留原始分支的版本回退，且需要回退的commit还没推送到远端仓库(local commit)
     git reset --hard $prev_commitid //回退到指定历史commit版本的状态，同时该回退版本之后的commit也会在git log中被清除。
                                     //该操作适合回退本地未推送到远端仓库的提交
-    
+  最近本地未推送commit版本修正
+    git commit --amend //适用于修正本地未push的commit，在最近一个本地commit的基础上，修改补充一些修改内容并暂存起来。该命令会将这些新增的暂存内容更新合并到最近本地commit中，避免由于小改动造成commit泛滥。
      
   
 origin概念
