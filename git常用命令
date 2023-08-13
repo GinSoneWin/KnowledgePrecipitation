@@ -95,6 +95,17 @@
     git reset --hard $prev_commitid //回退到指定历史commit版本的状态，同时该回退版本之后的commit也会在git log中被清除，同时reset之前的工作区和暂存区内容也会被清除。
                                     //该操作适合回退本地未推送到远端仓库的提交
                                     //当不小心回退到错误的历史commit时，git log上已经删除了相应的commit节点了。如果想找回中间的某个正确的历史commit，可以通过git reflog找到正确的节点(默认reference log只保留90天)，再重新git reset回退。
+                                    //--hard同时变更了working directory tree/staging index tree/commit history tree，因此直接把三个tree的状态都重置回某个commit版本，因此会丢失回退前原有的工作区和暂存区内容。
+    回退版本时需要使用原始分支，且回退的内容全部保留回工作区，适用于回退未推送到远端仓库的本地commit（类似将所有变更都重置为已修改但未暂存状态）
+    git reset --mixed(默认参数可省略) $commitid //回退到指定commit版本，在git log上找不到指定commitid之后的节点，暂存区恢复到指定commit的状态，被回退的内容保存回工作区。
+                                              //当进行回退操作的时候，如果工作区仍有未暂存内容，暂存区仍有未commit内容，那么这些内容也会被保留会工作区。
+                                              //实际上，--mixed仅变更了staging index tree和commit history tree，而不会变更working directory tree，因此相当于原本被staged的变更重新回到了unstaged状态。
+    回退版本时需要使用原始分支，且回退的内容全部保留回暂存区，适用于回退未推送到远端仓库的本地commit（类似将所有变更都重置为已暂存但未commit状态）
+    git reset --soft $commitid //回退到指定commit版本，在git log上找不到指定commitid之后的节点，被回退的内容保存回暂存区。
+                                              //当进行回退操作的时候：如果工作区仍有未暂存内容会维持不变；暂存区仍有未commit内容也会维持不变
+                                              //实际上，--soft仅仅是变更了commit history tree，不会变更staging index tree和working directory tree，因此相当于已commit的内容重新回到了staged状态而已。
+    
+
   最近本地未推送commit版本修正
     git commit --amend //适用于修正本地未push的commit，在最近一个本地commit的基础上，修改补充一些修改内容并暂存起来。该命令会将这些新增的暂存内容更新合并到最近本地commit中，避免由于小改动造成commit泛滥。
      
