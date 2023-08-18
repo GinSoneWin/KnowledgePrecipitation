@@ -1,1 +1,16 @@
+the stages of compiler design:
+  lexical analysis: scanning, reads the source code characters and breaks it down into a series of tokens, such as keywords, identifiers and operators.
+  syntax analysis: parsing, builds a parse tree, check for syntax errors.
+  semantic analysis: performs type checking, ensures operations are performed on compatible data types, checks for semantic errors like undeclared variables and incorrent function call. 
+  code generation: translates the parse tree into machine code that can be executed by the computer.
+  optimization: analyzes the generated code and make optimizations, such as constant folding, loop unrolling, and function inlining.
 
+compilers for different usage:
+  cross compilers: the compiler runs on machine platform A, but generates code for machine platform B.
+  source-to-source compiler: translates source code written in one programming language into the source code of another programming language.
+
+
+
+
+reference links:
+  https://www.geeksforgeeks.org/introduction-of-compiler-design/?ref=lbp
