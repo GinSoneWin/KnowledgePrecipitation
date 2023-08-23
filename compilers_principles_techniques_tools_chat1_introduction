@@ -1,1 +1,25 @@
+the compiler is part of the language-processing system.
+
+a language-processing system consists of several components:
+  -preprocessor:   source program -> preprocessor -> modified source program. using c language for example, this component will process the #include directives)
+  -compiler: modified source program -> compiler -> target assembly program(not binary yet, but low-level in texual form)
+  -assembler: target assembly program -> assembler -> relocatable machine code(now is binary code, stored as object files)
+  -linker/loader: relocatable machine code/library files/relocatable object files  -> linkker/loader -> targetmachine code (link multiple object files)
+
+we can split the compiler into two parts:
+  -analysis(front end): creates an intermediate representation of the source program, collects information about the source program to build a symbol table.
+  -synthesis(back end): constructs the target assembly program from the intermediate representation and symbol table.
+
+we can also split the compile process into several phases:
+  -lexical analysis
+  -syntax analyzsis
+  -semantic analysis
+  -intermediate code generation
+  -code optimization
+  -code generation
+  some of thess phases may group into a pass(read an input file and writes an output file).
+  for example, we can group lexical analysis, syntax analyzsis, semantic analysis and intermediate code generation phases into one pass called "front-end pass",
+               code optimization might be an optional pass,
+               code generation could be a "back-end pass".
+
 
