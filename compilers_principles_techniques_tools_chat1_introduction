@@ -11,12 +11,12 @@ we can split the compiler into two parts:
   -synthesis(back end): constructs the target assembly program from the intermediate representation and symbol table.
 
 we can also split the compile process into several phases:
-  -lexical analysis
-  -syntax analyzsis
-  -semantic analysis
-  -intermediate code generation
-  -code optimization
-  -code generation
+  -lexical analysis: performed by lexical analyzer
+  -syntax analyzsis: performed by syntax analyzer
+  -semantic analysis: performed by semantic analyzer
+  -intermediate code generation: performed by intermediate code generator
+  -code optimization: including intermediate code optimzation(by machine-independent code optimizer) and target machine code optimization(by machine dependent code optimizer)
+  -code generation: including "intermediate code generation"(by intermediate code generator) and "target machine code generation"(by code generator)
   some of thess phases may group into a pass(read an input file and writes an output file).
   for example, we can group lexical analysis, syntax analyzsis, semantic analysis and intermediate code generation phases into one pass called "front-end pass",
                code optimization might be an optional pass,
