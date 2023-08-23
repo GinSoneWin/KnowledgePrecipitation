@@ -11,8 +11,8 @@ we can split the compiler into two parts:
   -synthesis(back end): constructs the target assembly program from the intermediate representation and symbol table.
 
 we can also split the compile process into several phases:
-  -lexical analysis: performed by lexical analyzer
-  -syntax analyzsis: performed by syntax analyzer
+  -lexical analysis: performed by lexical analyzer, also called scanner.
+  -syntax analyzsis: performed by syntax analyzer, also called parser.
   -semantic analysis: performed by semantic analyzer
   -intermediate code generation: performed by intermediate code generator
   -code optimization: including intermediate code optimzation(by machine-independent code optimizer) and target machine code optimization(by machine dependent code optimizer)
