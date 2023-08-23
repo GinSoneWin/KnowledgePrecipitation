@@ -22,4 +22,10 @@ we can also split the compile process into several phases:
                code optimization might be an optional pass,
                code generation could be a "back-end pass".
 
-
+there are some commonly used compiler-construction tools:
+  -parser generators: produce syntax analyzers
+  -scanner generators: product lexical analyzers
+  -syntax-directed translation engines: produce routines for walking a parse tree and generating intermediate code
+  -code-generator genreators: produce code generators
+  -data-flow analysis engines: key part of code optimization, gathering information about how values are transmitted from one part of the program to each other part.
+  -compiler-construction toolkits: provide an integrated set of routines for constructing various phases of a compiler.
