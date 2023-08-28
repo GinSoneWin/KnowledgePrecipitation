@@ -1,1 +1,11 @@
-
+operating system
+  Unix, Posix and the Standard Unix Specification
+    - 1960s, IBM's OS/360 was one of the most successful software project, while Honeywell's Multics system dragged on and never achieved wide-scale use.
+    - Bell Laboratories dropped out Multics project in 1969, and Unix was announced to the outside world in 1974, whichs kernel was rewritten in C.
+    - University of California at Berkeley, added virtual memory and the Internet protocols in a series of releases called Unix 4.xBSD（Berkeley Software Distribution）in the late 1970s and 1980s.
+    - Bell Labs released System V Unix.
+    - Other vendors released versions, such as Sun Microsystems Solaris system, were derived from these original BSD and System V versions.
+  processes
+    - A process is the operating system's abstraction for a running program.
+    - multiple processes can run concurrently(means that instructions of one process are interleaved with the instructions of another process) on the same system.
+  
