@@ -1,11 +1,15 @@
-operating system
-  Unix, Posix and the Standard Unix Specification
-    - 1960s, IBM's OS/360 was one of the most successful software project, while Honeywell's Multics system dragged on and never achieved wide-scale use.
-    - Bell Laboratories dropped out Multics project in 1969, and Unix was announced to the outside world in 1974, whichs kernel was rewritten in C.
-    - University of California at Berkeley, added virtual memory and the Internet protocols in a series of releases called Unix 4.xBSD（Berkeley Software Distribution）in the late 1970s and 1980s.
-    - Bell Labs released System V Unix.
-    - Other vendors released versions, such as Sun Microsystems Solaris system, were derived from these original BSD and System V versions.
-  processes
-    - A process is the operating system's abstraction for a running program.
-    - multiple processes can run concurrently(means that instructions of one process are interleaved with the instructions of another process) on the same system.
-  
+Chap3 Machine-Level Representation of Programs
+
+  - Computers execute machine code, sequences of bytes encoding the low-level operations that manipulate data, manage memory, read and write data on storage devices, and communicate over networks.
+  - A compiler generates machine code through a series of stages, based on: the rules of the programming language / the instruction set of the target machine / the conventions followed by the operating system.
+  - The GCC C compiler generates its output in the form of assembly code, then invokes both an assembler and a linker to generate the executable machine code from the assembly code.
+  - A high-level language hides information about the run-time behavior of a program that we need to understand:
+    - For example, understand how program data are shared or kept private by the different threads and precisely how and where shared data are accessed.
+    - Understanding how vulnerabilities arise and how to guard against them requires a knowledge of the machine-level representation of programs.
+  - What is x86-64?  
+    - Instruction set architecture(ISA), sometimes also called computer architecture(not the micro processor physical architecture ), defines the supported instructions, data types, registers, the hardware support for managing main memory etc.
+    - A device that executes instructions described by that ISA, such as a central processing unit (CPU), is called an implementation of that ISA.
+    - A x86-64 is a 64-bit version of the x86 instruction set, first released in 1999. 
+    - x86 (also known as 80x86 or the 8086 family) is a family of complex instruction set computer (CISC) instruction set architectures initially developed by Intel based on the Intel 8086.
+    - this book's presentation is based on x86-64, the machine language(not machine code) for most of the processors found in today's laptop and desktop machines, as well as those that power very large data centers and supercomputers.
+    - IA32, the 32-bit predecessor to x86-64, was introduced by Intel in 198S. It served as the machine language of choice for several decades. Most x86 microprocessors can also execute IA32
