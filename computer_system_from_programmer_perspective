@@ -1,5 +1,6 @@
 Chap3 Machine-Level Representation of Programs
 
+A Historical Perspective
   - Computers execute machine code, sequences of bytes encoding the low-level operations that manipulate data, manage memory, read and write data on storage devices, and communicate over networks.
   - A compiler generates machine code through a series of stages, based on: the rules of the programming language / the instruction set of the target machine / the conventions followed by the operating system.
   - The GCC C compiler generates its output in the form of assembly code, then invokes both an assembler and a linker to generate the executable machine code from the assembly code.
@@ -13,7 +14,7 @@ Chap3 Machine-Level Representation of Programs
     - x86 (also known as 80x86 or the 8086 family) is a family of complex instruction set computer (CISC) instruction set architectures initially developed by Intel based on the Intel 8086.
     - this book's presentation is based on x86-64, the machine language(not machine code) for most of the processors found in today's laptop and desktop machines, as well as those that power very large data centers and supercomputers.
     - IA32, the 32-bit predecessor to x86-64, was introduced by Intel in 198S. It served as the machine language of choice for several decades. Most x86 microprocess sold today and opereating system designed to run on x86-64, can also execute IA32 programs in a backward compatibility mode.
-  - The evolutionary development of x86
+  - The evolutionary development of Intel x86
     - It started with one of the first single-chip 16-bit microprocessors.
     - 8086: In 1987, One of the first single-chip, 16-bit microprocessors.
     - 8088: a variant of the 8086 with an 8-bit external bus, formed the heart of the original IBM personal computers.
@@ -35,4 +36,39 @@ Chap3 Machine-Level Representation of Programs
     - Each successive processor has been designed to be backward compatible, able to run code compiled for any earlier version.( there are many strange artifacts in the instruction set due to this evolutionary heritage).
     - Intel has had several names for their processor line, including "IA32"(for "Intel Architecture 32-bit" ) and most recently "Intel64"(the 64-bit extension to IA32) , which we will refer to as x86-64. 
     - We will refer to the overall line by the commonly used colloquial name "x86," reflecting the processor naming conventions up through the i486.
+
+Program Encodings
+- we use "linux> gcc -Og -o p p1.c p2.c" to generate executable machine code, and the option "-0g" is telling the compiler to apply a level of optimization that yields machine code that follows the overall structure of the original C code, instead of generating code that is so heavily transformed that the relationship between the generated machine code and the original source code is difficult to understand.
+- In practice, higher levels of optimization (e.g., specified with the option -01 or-02) are considered a better choice in terms of the resulting program performance.
+- The gee command invokes an entire sequence of programs to turn the source code into executable code:
+  - First, the C "preprocessor" expands the source code to include any files specified with #include commands and to expand any macros, specified with #define declarations
+  - Second, the "compiler" generates assembly code versions of the two source files having names p1.s and p2.s
+  - Next, the "assembler" converts the assembly code into binary object-code(not executable yet) files p1.o and p2.o(Object-code is one form of machine code, it contains binary representations of all of the instructions, but the addresses of global values are not yet filled in)
+  - Finally, the "linker" merges these two object-code files along with code implementing library functions (e.g. printf) and generates the final executable code file p (as specified by the command-line directive -o p). 
+  - Executable code is the second form of machine code we will consider, it is the exact form of code that is executed by the processor.
+
+Machine-Level Code
+- computer systems employ several different forms of abstraction, hiding details of an implementation through the use of a simpler abstrac model. Two of these are especially important for machine-level programming:
+  - First, the format and behavior of a machine-level program is defined by the instruction set architecture, or ISA. It defines the processor state, the format of the instructions, and the effect each of these instructions will have on the state.
+  - Second, the memory addresses used by a machine-level program are virtual addresses, providing a memory model that appears to be a very large byte array.
+- The compiler transforms programs expressed in the abstract execution model provided by C into the elementary instructions that the processor executes. 
+- Being able to understand assembly code(very close to machine code, in a more readable textual format) and how it relates to the original C code is a key step in understanqing how computers execute programs.
+- The machine code for x86-64 differs greatly from the original C code. Parts of the processor state are visible that normally are hidden from the C programmer. For example:
+  - The program counter(PC or called %rip in x86-64), indicates the memory address of the next instruction to be executed
+  - The integer register file: contains 16 nameed locations, each can store 64-bit values, like addresses (corresponding to C pointers) or integer data. some of them are used to keep track of  critical parts of the program state, while others are used to hold temporary data(the arguments and local variables of a procedure/ the value to be returned by a function/ etc.)
+  - The condition code registers 
+  - A set of vector registers
+
+
+
+
+
+
+
+
+
+
+
+
+
 
