@@ -38,8 +38,8 @@ A Historical Perspective
     - We will refer to the overall line by the commonly used colloquial name "x86," reflecting the processor naming conventions up through the i486.
 
 Program Encodings
-- we use "linux> gcc -Og -o p p1.c p2.c" to generate executable machine code, and the option "-0g" is telling the compiler to apply a level of optimization that yields machine code that follows the overall structure of the original C code, instead of generating code that is so heavily transformed that the relationship between the generated machine code and the original source code is difficult to understand.
-- In practice, higher levels of optimization (e.g., specified with the option -01 or-02) are considered a better choice in terms of the resulting program performance.
+- we use "linux> gcc -Og -o p p1.c p2.c" to generate executable machine code, and the option "-Og" is telling the compiler to apply a level of optimization that yields machine code that follows the overall structure of the original C code, instead of generating code that is so heavily transformed that the relationship between the generated machine code and the original source code is difficult to understand.
+- In practice, higher levels of optimization (e.g., specified with the option -O1 or-O2) are considered a better choice in terms of the resulting program performance.
 - The gee command invokes an entire sequence of programs to turn the source code into executable code:
   - First, the C "preprocessor" expands the source code to include any files specified with #include commands and to expand any macros, specified with #define declarations
   - Second, the "compiler" generates assembly code versions of the two source files having names p1.s and p2.s
@@ -54,20 +54,91 @@ Machine-Level Code
 - The compiler transforms programs expressed in the abstract execution model provided by C into the elementary instructions that the processor executes. 
 - Being able to understand assembly code(very close to machine code, in a more readable textual format) and how it relates to the original C code is a key step in understanqing how computers execute programs.
 - The machine code for x86-64 differs greatly from the original C code. Parts of the processor state are visible that normally are hidden from the C programmer. For example:
-  - The program counter(PC or called %rip in x86-64), indicates the memory address of the next instruction to be executed
+  - The program counter(PC or called %rip in x86-64): indicates the memory address of the next instruction to be executed
   - The integer register file: contains 16 nameed locations, each can store 64-bit values, like addresses (corresponding to C pointers) or integer data. some of them are used to keep track of  critical parts of the program state, while others are used to hold temporary data(the arguments and local variables of a procedure/ the value to be returned by a function/ etc.)
-  - The condition code registers 
-  - A set of vector registers
+  - The condition code registers: hold status information about the most recently executed arithmetic or logical instruction. These are used to implement conditional changes in the control or data flow, such as is required to implement if and while statements.
+  - A set of vector registers: each one can hold one or more integer or floating-point values.
+- C provides a model in which objects of different data types can be declared and allocated in memory, machine code views the memory as simply a large byte-addressable array.
+- Aggregate data types in C such as arrays and structures, are represented in machine code as contiguous collections of bytes.
+- Even for scalar data types, assembly code makes no distinctions between signed or unsigned integers, between different types of pointers, or even between pointers and integers.
+- The program memory, contains multiple parts:
+  - the executable machine code for the program
+  - some information required by the operating system
+  - a run-time stack for mqnaging procedure calls and returns
+  - blocks of memory allocated by the user
+- The program memory is addressed using virtual addresses, but only limited subranges  of virtual addresses are considered valid.(For example, x86-64 virtual addresses are represented by 64-bit words. In current implementations of these machines, the upper 16 bits must be set to zero, and so an address can potentially specify a byte over a range of 2^(64-16) -> 2^(48) )
+- The operating system manages this virtual address space, translating virtual addresses into the physical addresses of values in the actual processor memory
+- A single machine instruction performs only a very elementary operation, for example:
+  - add two numbers stored in registers
+  - transfer data between memory and a register
+  - conditionally branch to a new instruction address
 
+Code Examples
+  - we have C code file mstore.c, containing the following function definition:
+              long mult2(long, long);
+              void multstore(long x, long y, long *dest) { 
+                  long t = mult2(x, y);
+                  *dest = t;
+              }
+  - To see the assembly code generated by the C compiler, it will generate the mstore.s file by using the following command:
+      linux>  gcc -Og -S mstore.c
+  - The generated assembly-code file may contains various declarations like this:
+        multstore:
+          pushq %rbx
+          movq %rdx, %rbx
+          call mult2
+          movq %rax, (%rbx)
+          popq %rbx
+          ret
+  - each indented line showed above corresonds to a single machine instruction
+  - we can both compile and assemble the code by using command, we will get mstore.o that is binary format
+      linux> gcc -Og -c mstore.c
+  - the multstore function's assembly-code in binary format, embedded within the file mstore.o, would probably be:
+      53 48 89 d3 e8 00 00 00 00 48 89 03 5b c3  
+  - that means, the program executed by the machine is simply a sequence of bytes encoding a series of instructions. The machine has very little information about the source code from which these instructions were generated.
+  - we can use objdump tool to inspect the contents of machine-code files:
+    linux> objdump -d mstore.o
+  - Several features about machine code are worth noting:
+    - x86-64 instructions can range in length from 1 to 15 bytes. 
+    - The instruction encoding is designed so that commonly used instructions and those with fewer operands require a smaller number of bytes(than not commonly used ones, or ones with more operands).
+    - The instruction format is designed in such a way that from a given starting position, there is a unique decoding of the bytes into machine instructions. For example, only the instruction pushq %rbx can start with byte value 53.
+    - The disassembler determines the assembly code based purely on the byte sequences in the machine-code file. It does not require access to the source or assembly-code versions of the program        
+    - The disassembler uses a slightly different naming convention for the instructions than does the assembly code generated by gcc.
+  - Generating the actual executable code requires running a linker on the set of object-code files, one of which must contain a function main.
+  - if we add a main.c file as follows:
+        #include<stdio.h>
+        void multstore(long, long, long *);
+        int main(){
+          long d;
+          multstore(2, 3, &d);
+          printf("2*3 --> %ld\n", d);
+          return 0;
+        }
 
+        long mult2(long a, long b){
+          long s = a * b;
+          return s;
+        }
+  - then generate an executable program by:
+        linux> gcc -Og -o prog main.c mstore.c
+  - the file prog now contains not just the machine code for the multstore procedures but also code used to start and terminate the program as well as to interact with the operating system. 
+  - then we disassemble the executable file by:
+        linux> objdump -d prog
+  - the disassembler will extract various code sequence, include the assembly-code of multstore procedure we mentioned before, but there are a few differences:
+    - the linker has shifted the location of this code to a different range of addresses
+    - the linker has filled in the address that the callq instruction should use in calling the function mult2
+    - two additional lines of code, inserted to grow the code for the function to 16 bytes, enabling a better placement of the next block of code in terms of memory system performance
 
+Notes on Formatting
+  - In our presentation we show assembly code in ATT format, which is the default format for gcc and objdump, and is different from Intel Format.
+  - If we want gcc to generate assembly code in Intel format, we can use -masm option like:
+      linux> gcc -Og -S -masm=intel mstore.c
 
-
-
-
-
-
-
+Data Formats
+  - Due to its origins as a 16-bit architecture that expanded into a 32-bit one, Intel uses the term "word" to refer to a 16-bit data type. Based on this, they refer to 32- bit quantities as "double words," and 64-bit quantities as "quad words.
+  - Figure 3.1 shows the x86-64 representations used for the primitive data types of C. Standard int values are stored as double words (32 bits). Pointers (shown here as char*) are stored as 8-byte quad words, as would be expected in a 64-bit machine. 
+  - With x86-64, data type long is implemented with 64 bits, allowing a very wide range of values. Most of our code examples in this chapter use pointers and long data types, and so they will operate on quad words.
+  - The x86-64 instruction set includes a full complement of instructions for bytes, words, and double words as well.
 
 
 
