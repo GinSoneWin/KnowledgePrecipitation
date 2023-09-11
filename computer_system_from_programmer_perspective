@@ -186,7 +186,7 @@ Data Movement Instructions
     - MOV class, the simplest form of data movement instructions, copy data from a source location to a destination location, without any transformation
         - movb Src,Dest, move byte
         - movw Src,Dest, move word, 2 bytes
-        - movl Src,Dest, move double word, 4 bytes
+        - movl Src,Dest, move double word, 4 bytes, when movl has a register as the destination, it will also set the high-order 4 bytes of the register to 0.
         - movq Src(Immediate only),Dest(register only), move quad word, 8 bytes
         - all four of these instruations have similar effects: they differ primarily in that they operate on data of different sizes: 1, 2, 4, and 8 bytes, respectively.
         - movabsq Src,Dest, can have an arbitrary 64-bit immediate value as its source operand and can only have a register as a destination.
@@ -205,7 +205,7 @@ Data Movement Instructions
         - movslq Src(register or memory),Dest(register only), Move sign-extended double word to quad word
 
 
- 
+  - in x86-64, any instruction that generates a 32-bit value for a register also sets the high-order portion of the register to 0.
 
 
   - x86-64 imposes the restriction that a move instruction cannot have both operands refer to memory locations so that copying a value from one memory location to another requires two instructions: 
